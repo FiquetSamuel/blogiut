@@ -1,1 +1,3 @@
-
+Options +FollowSymlinks
+RewriteEngine On
+RewriteRule ^accueil$ index.php [L]
