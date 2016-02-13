@@ -11,6 +11,7 @@
 									  <li><a href="deconnexion.php">Déconnexion</a></li>';
 							}else{
 								echo '<li><a href="connexion.php">Connexion</a></li>';
+								echo '<li><a href="inscription.php">Inscription</a></li>';
 							}
 						?>
 					</ul>
