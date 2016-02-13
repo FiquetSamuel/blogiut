@@ -14,6 +14,11 @@
 								echo '<li><a href="inscription.php">Inscription</a></li>';
 							}
 						?>
+						<li><form method="post" action="#">
+								<input type="text" name="recherche" placeholder="Rechercher un article">
+								<input type="submit" name="subRecherche">
+							</form>
+						</li>
 					</ul>
 					
 				</nav>
