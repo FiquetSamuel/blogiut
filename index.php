@@ -3,6 +3,7 @@
 	include('includes/header.inc.php');
 	include('includes/verif_util.inc.php');
 	
+	//On affiche les articles si il n'y a pas de recherche en cours lancé par le footer.inc
 	if(!isset($_POST['subRecherche'])){
 		
 		$res = mysql_query("SELECT * FROM articles ORDER BY `date` DESC;");
