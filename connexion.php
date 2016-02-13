@@ -18,8 +18,8 @@
 		
 
 		if(isset($_POST['email'])){
-			$email = mysql_real_escape_string($_POST['email']);
-			$mdp = mysql_real_escape_string(md5($_POST['mdp']));
+			$email = mysql_real_escape_string(htmlspecialchars($_POST['email']));
+			$mdp = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdp'])));
 			
 			$connexion = mysql_query("SELECT email, mdp FROM utilisateurs WHERE email = '$email' AND mdp = '$mdp';");
 			if(mysql_num_rows($connexion) == 1){
