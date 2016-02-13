@@ -17,7 +17,7 @@
 							if(basename($_SERVER['PHP_SELF']) == 'index.php' ){
 								echo '<li><form method="post" action="#">
 									<input type="text" name="recherche" placeholder="Rechercher un article">
-									<input type="submit" name="subRecherche">
+									<input class="btn btn-primary" type="submit" name="subRecherche" value="Rechercher">
 									</form>
 								</li>';
 							}
