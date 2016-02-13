@@ -42,7 +42,8 @@
 			$mdp = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdp'])));
 			$mdpCheck = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdpCheck'])));
 			
-			//On vérifie que tout les champs sont rempli.
+			//On crée un tableau de chaînes des noms des inputs qui doivent être rempli.
+			//On vérifie ainsi dans un foreach que chaque $_POST n'est pas vide.
 			$isFilled = array('nom', 'prenom', 'email', 'mdp', 'mdpCheck');
 			$error = false;
 			foreach($isFilled as $check){

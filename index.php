@@ -9,7 +9,7 @@
 	Si le submit n'est pas cliqué, alors la requête à utiliser plus tard est le simple affichage des articles.
 	Sinon, on affiche le résultat de la recherche lancé dans la barre de recherche.*/
 	if(!isset($_POST['subRecherche'])){
-		$res = mysql_query("SELECT * FROM articles ORDER BY `date` DESC;");
+		$res = mysql_query('SELECT * FROM articles ORDER BY `date` DESC;');
 	}else{
 		//On sécurise l'input text des différentes injections.
 		$recherche = mysql_real_escape_string(htmlspecialchars($_POST['recherche']));
@@ -48,7 +48,7 @@
 				<strong>Aucun article ne correspond à votre recherche.</strong>
 				</div>';
 	}
-	
+
 	include('includes/footer.inc.php');
 	
 ?>
