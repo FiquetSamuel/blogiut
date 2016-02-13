@@ -27,7 +27,7 @@
 			//Si $i est égal à size-1, cela signifie que l'on traite le dernier mot clé et donc la fin de la requête.
 			if($i == $size-1){
 				//On concatène la fin de la requête SQL dans la variable $req
-				$req .= "titre LIKE '%$rechExp[$i]%' OR contenu LIKE '%$rechExp[$i]%';";
+				$req .= "titre LIKE '%$rechExp[$i]%' OR contenu LIKE '%$rechExp[$i]%' ORDER BY `date` DESC;";
 			}else{
 				//Sinon, on concatène le reste de la requête.
 				$req .= "titre LIKE '%$rechExp[$i]%' OR contenu LIKE '%$rechExp[$i]%' OR ";
