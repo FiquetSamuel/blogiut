@@ -13,12 +13,15 @@
 								echo '<li><a href="connexion.php">Connexion</a></li>';
 								echo '<li><a href="inscription.php">Inscription</a></li>';
 							}
+							//On affiche la barre de recherche uniquement si la page est index.php
+							if(basename($_SERVER['PHP_SELF']) == 'index.php' ){
+								echo '<li><form method="post" action="#">
+									<input type="text" name="recherche" placeholder="Rechercher un article">
+									<input type="submit" name="subRecherche">
+									</form>
+								</li>';
+							}
 						?>
-						<li><form method="post" action="#">
-								<input type="text" name="recherche" placeholder="Rechercher un article">
-								<input type="submit" name="subRecherche">
-							</form>
-						</li>
 					</ul>
 					
 				</nav>
