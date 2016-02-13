@@ -34,6 +34,13 @@
 		header('Location:index.php');
 	}else{
 		if(isset($_POST['envoi'])){
+			//On sécurise les variables post des injections SQL/JS.
+			$nom = mysql_real_escape_string(htmlspecialchars($_POST['nom']));
+			$prenom = mysql_real_escape_string(htmlspecialchars($_POST['prenom']));
+			$email = mysql_real_escape_string(htmlspecialchars($_POST['email']));
+			$mdp = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdp'])));
+			$mdpCheck = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdpCheck'])));
+			
 			//On vérifie que tout les champs sont rempli.
 			$isFilled = array('nom', 'prenom', 'email', 'mdp', 'mdpCheck');
 			$error = false;
@@ -49,6 +56,24 @@
 				echo '<div class="alert alert-warning">
 						<strong>Tout les champs doivent être rempli.</strong>
 				</div>';
+			}else{
+				//Vérifie que l'adresse email est valide.
+				if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+					echo 'Erreur: Votre adresse e-mail est invalide.';
+				}else{
+					//On vérifie que le MDP et la Confirmation sont identique.
+					if($mdp != $mdpCheck){
+						echo '<div class="alert alert-warning">
+							<strong>Le mot de passe et la confirmation mot de passe doivent être identique.</strong>
+						</div>';
+					}else{
+						//Une fois que tout les champs sont validé, on insère l'utilisateur dans la BDD.
+						$inscription = mysql_query("INSERT INTO utilisateurs(email, mdp, nom, prenom) VALUES ('$email', '$mdp', '$nom', '$prenom');");
+						echo '<div class="alert alert-success">
+								<strong>'.utf8_encode("Votre compte à bien été créé.Vous pouvez vous connecté").' <a href="connexion.php">ici</a>.</strong> 
+							</div>';
+					}
+				}
 			}
 		}
 	}
