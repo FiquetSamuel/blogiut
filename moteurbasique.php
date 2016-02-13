@@ -13,28 +13,7 @@
 	}else{
 		//On sécurise l'input text des différentes injections.
 		$recherche = mysql_real_escape_string(htmlspecialchars($_POST['recherche']));
-		
-		//Je commence par séparer chaque mot clé entré dans la barre de recherche avec espace comme séparateur.
-		$rechExp = explode(' ',$recherche);
-		$size = sizeof($rechExp);
-		
-		//Je prépare la base de la requête SQL, la partie qui ne changera jamais selon les mots passé.
-		$req = "SELECT * FROM articles WHERE ";
-		
-		//Ici, on boucle jusqu'à ce que l'on traite tout les élément ($size - 1 car le tableau commence à 0; mais sizeOf() fonctionne comme un count) 
-		for($i = 0; $i <= $size-1; $i++){
-			
-			//Si $i est égal à size-1, cela signifie que l'on traite le dernier mot clé et donc la fin de la requête.
-			if($i == $size-1){
-				//On concatène la fin de la requête SQL dans la variable $req
-				$req .= "titre LIKE '%$rechExp[$i]%' OR contenu LIKE '%$rechExp[$i]%';";
-			}else{
-				//Sinon, on concatène le reste de la requête.
-				$req .= "titre LIKE '%$rechExp[$i]%' OR contenu LIKE '%$rechExp[$i]%' OR ";
-			}
-		}
-		//Enfin, on utilise la requête SQL que l'on vient de généré.
-		$res = mysql_query("$req");
+		$res = mysql_query("SELECT * FROM articles WHERE titre LIKE '%$recherche%' OR contenu LIKE '%$recherche%';");
 	}
 	
 	/*On se sert du $res que l'on a défini précédemment.
