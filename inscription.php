@@ -1,5 +1,5 @@
 <?php
-	//La plupart (tous?) les messages d'erreurs sont stockés dans une variable dû à divers problème d'encodage.
+	//La plupart (tous?) les messages d'erreurs sont stockÃ©s dans une variable dÃ» Ã  divers problÃ¨me d'encodage.
 	include('includes/connexion.inc.php');
 	include('includes/header.inc.php');
 	include('includes/verif_util.inc.php');
@@ -30,20 +30,20 @@
 	</form>
 
 <?php
-	//Redirige l'utilisateur sur l'accueil si il est déjà connecté.
+	//Redirige l'utilisateur sur l'accueil si il est dÃ©jÃ  connectÃ©.
 	if($connect == true){
 		header('Location:index.php');
 	}else{
 		if(isset($_POST['envoi'])){
-			//On sécurise les variables post des injections SQL/JS.
+			//On sÃ©curise les variables post des injections SQL/JS.
 			$nom = mysql_real_escape_string(htmlspecialchars($_POST['nom']));
 			$prenom = mysql_real_escape_string(htmlspecialchars($_POST['prenom']));
 			$email = mysql_real_escape_string(htmlspecialchars($_POST['email']));
 			$mdp = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdp'])));
 			$mdpCheck = mysql_real_escape_string(htmlspecialchars(md5($_POST['mdpCheck'])));
 			
-			//On crée un tableau de chaînes des noms des inputs qui doivent être rempli.
-			//On vérifie ainsi dans un foreach que chaque $_POST n'est pas vide.
+			//On crÃ©e un tableau de chaÃ®nes des noms des inputs qui doivent Ãªtre rempli.
+			//On vÃ©rifie ainsi dans un foreach que chaque $_POST n'est pas vide.
 			$isFilled = array('nom', 'prenom', 'email', 'mdp', 'mdpCheck');
 			$error = false;
 			foreach($isFilled as $check){
@@ -53,37 +53,45 @@
 			}
 			
 			//Si true alors un champs n'est pas rempli.
-			//Sinon, on vérifie la validité des données passé.
+			//Sinon, on vÃ©rifie la validitÃ© des donnÃ©es passÃ©.
 			if($error == true){
 				$errorFilled = utf8_encode('<div class="alert alert-warning">
-						<strong>Tout les champs doivent être rempli.</strong>
+						<strong>Tout les champs doivent Ãªtre rempli.</strong>
 				</div>');
 				echo $errorFilled;
 			}else{
-				//Vérifie que l'adresse email est valide.
+				//VÃ©rifie que l'adresse email est valide.
 				if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 					echo 'Erreur: Votre adresse e-mail est invalide.';
 				}else{
-					//On vérifie maintenant que l'email passé n'existe pas déjà dans la base de données.
+					//On vÃ©rifie maintenant que l'email passÃ© n'existe pas dÃ©jÃ  dans la base de donnÃ©es.
 					$emailCheck = mysql_query("SELECT email FROM utilisateurs WHERE email='$email';");
 					if(mysql_num_rows($emailCheck) == 1){
 						$emailError = utf8_encode('<div class="alert alert-warning">
-							<strong>L\'adresse email est déjà utilisé. Saisissez en une autre.</strong>
+							<strong>L\'adresse email est dÃ©jÃ  utilisÃ©. Saisissez en une autre.</strong>
 						</div>');
 						echo $emailError;						
 					}else{
-						//On vérifie que le MDP et la Confirmation sont identique.
+						//On vÃ©rifie que le MDP et la Confirmation sont identique.
 						if($mdp != $mdpCheck){
 							$errorMdp = utf8_encode('<div class="alert alert-warning">
-								<strong>Le mot de passe et la confirmation mot de passe doivent être identique.</strong>
+								<strong>Le mot de passe et la confirmation mot de passe doivent Ãªtre identique.</strong>
 							</div>');
 							echo $errorMdp;
 						}else{
-							//Une fois que tout les champs sont validé, on insère l'utilisateur dans la BDD.
+							//Une fois que tout les champs sont validÃ©, on insÃ¨re l'utilisateur dans la BDD.
 							$inscription = mysql_query("INSERT INTO utilisateurs(email, mdp, nom, prenom) VALUES ('$email', '$mdp', '$nom', '$prenom');");
-							echo '<div class="alert alert-success">
-									<strong>'.utf8_encode("Votre compte à bien été créé.Vous pouvez vous connecté").' <a href="connexion.php">ici</a>.</strong> 
-								</div>';
+							$checkInscr = mysql_query("SELECT email FROM utilisateurs WHERE email='$email';");
+							if(mysql_num_rows($checkInscr) > 0){
+								
+								echo '<div class="alert alert-success">
+										<strong>'.utf8_encode("Votre compte Ã  bien Ã©tÃ© crÃ©Ã©.Vous pouvez vous connectÃ©").' <a href="connexion.php">ici</a>.</strong> 
+									</div>';
+							}else{
+								echo '<div class="alert alert-warning">
+								<strong>Une erreur s\'est produite. Veuillez recommencer.</strong>
+							</div>';
+							}
 						}
 					}
 				}
