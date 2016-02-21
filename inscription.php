@@ -81,9 +81,17 @@
 						}else{
 							//Une fois que tout les champs sont validé, on insère l'utilisateur dans la BDD.
 							$inscription = mysql_query("INSERT INTO utilisateurs(email, mdp, nom, prenom) VALUES ('$email', '$mdp', '$nom', '$prenom');");
-							echo '<div class="alert alert-success">
-									<strong>'.utf8_encode("Votre compte à bien été créé.Vous pouvez vous connecté").' <a href="connexion.php">ici</a>.</strong> 
-								</div>';
+							$checkInscr = mysql_query("SELECT email FROM utilisateurs WHERE email='$email';");
+							if(mysql_num_rows($checkInscr) > 0){
+								
+								echo '<div class="alert alert-success">
+										<strong>'.utf8_encode("Votre compte à bien été créé.Vous pouvez vous connecté").' <a href="connexion.php">ici</a>.</strong> 
+									</div>';
+							}else{
+								echo '<div class="alert alert-warning">
+								<strong>Une erreur s\'est produite. Veuillez recommencer.</strong>
+							</div>';
+							}
 						}
 					}
 				}
