@@ -32,7 +32,14 @@
       <footer>
         <p>&copy; Samuel FIQUET 2015</p>
       </footer>
-
+	<script>
+		$('ul').css('display', 'none');
+		$('.span4').hover(function(){
+			$('ul').slideDown();
+		},function(){
+			$('ul').slideUp();
+		});
+	</script>
     </div>
 
   </body>
