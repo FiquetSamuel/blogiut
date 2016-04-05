@@ -43,9 +43,38 @@
 	Si il y a 0 ligne retourné, c'est qu'il n'existe pas d'article si le blog est vierge, ou
 	que la recherche d'article n'a rien trouvé.
 	*/
+?>
+<script src="assets/js/bjqs-1.3.js"></script>
+<link type="text/css" rel="stylesheet" href="assets/css/bjqs.css" />
+
+<div id="my-slideshow">
+	<ul class="bjqs">
+		<?php
+			$resi = mysql_query('SELECT * FROM articles ORDER BY `date` DESC;');
+			while($data = mysql_fetch_array($resi)){
+				$id = $data['id'];
+				$cheminDest = "data/images/$id.jpg";
+				$echo = '<li><h3>'.$data['titre'].'</h3>';
+
+
+				if(file_exists($cheminDest)){
+					$echo .="<img src='vignette.jpg.php?id=$id'>";
+				}
+
+				$echo .= nl2br(htmlspecialchars($data['contenu']));
+
+				echo $echo.'</li>';
+
+
+			}
+		?>
+	</ul>
+</div>
+<?php
 	if(mysql_num_rows($res) > 0){
 		while($data = mysql_fetch_array($res)){
 			$id = $data['id'];
+			$like = $data['like'];
 			$cheminDest = "data/images/$id.jpg";
 			echo '<h3>'.utf8_encode($data['titre']).'</h3>';
 			echo '<h5> Posté le '.$data['date'].'</h5>';
@@ -61,6 +90,7 @@
 				echo "<a class='btn btn-primary' href='article.php?id=$id'>Modifier</a> ";
 				echo "<a class='btn btn-danger' href='supprimer_article.php?id=$id'>Supprimer</a>";
 			}
+			echo "<input class='btn btn-primary' id='tag $id' type='button' name='like' value='J&#39;aime $like' onclick='like()'>";
 			
 			echo '<hr/>';
 		}
